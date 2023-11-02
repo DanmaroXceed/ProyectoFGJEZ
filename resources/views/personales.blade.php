@@ -10,7 +10,7 @@
                 <h4 for="" class="form-label">Direccion: {{ $personal[0]->address}}</h4>
                 <h4 for="" class="form-label">Fecha de nacimiento: {{ $personal[0]->brtDay}}</h4>
                 <h4 for="" class="form-label">Genero: {{ $personal[0]->gen}}</h4>
-                <h4 for="" class="form-label">Archivo: <a href="" target="_blank" enctype="multipart/form-data">
+                <h4 for="" class="form-label">Archivo: <a href="{{url('storage/' . $personal[0]->file)}}" target="_blank" enctype="multipart/form-data">
                     {{ $personal[0]->file}}</a></h4>
             </div>
             <div>

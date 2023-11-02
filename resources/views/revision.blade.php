@@ -19,7 +19,7 @@
                             <h5>Direccion: {{ $user->address}}</h5>
                             <h5>Fecha de nacimiento: {{ $user->brtDay}}</h5>
                             <h5>Genero: {{ $user->gen}}</h5>
-                            <h5>Comprobante:<a href="#"> {{ $user->file}}</a></h5>
+                            <h5>Comprobante:<a href="{{url('storage/' . $user->file)}}" target="_blank"> {{ $user->file}}</a></h5>
 
                             @if ($user->verif == 0)
                             <form action="{{route('verificar', ['id' => $user->id])}}" method="POST">
