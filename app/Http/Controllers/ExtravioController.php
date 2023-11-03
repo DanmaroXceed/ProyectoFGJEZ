@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CorregirReporte;
 use App\Models\extravio;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class ExtravioController extends Controller
@@ -45,6 +48,10 @@ class ExtravioController extends Controller
             $input['user_id'] = null; // o cualquier otro valor predeterminado que desees
         }
         $extravio = Extravio::create($input);
+
+        Mail::to(config('mail.from.address'))
+            ->send(new CorregirReporte('Se genero un nuevo reporte de Extravio','emails.Exadded', $user->name. '-' . $input['nameDoc']));
+            
         return redirect() -> route('extravio') -> with('correcto', 'Se genero el reporte correctamente');
     }
 
@@ -65,7 +72,16 @@ class ExtravioController extends Controller
     public function destroy($id)
     {
         $extravio = extravio::find($id);
+        $user = DB::table('extravios')
+                ->join("users","users.id","=","extravios.user_id")
+                ->where('user_id', $extravio->user_id)
+                ->value('name');
+                
         $extravio -> delete();
+
+        Mail::to(config('mail.from.address'))
+            ->send(new CorregirReporte('Se Elimino un reporte','emails.EXdel', $user. ' - '. $extravio->nameDoc));
+
         return redirect() -> route('extravio') -> with('correcto', 'Reporte Eliminado');
     }
 
@@ -86,6 +102,14 @@ class ExtravioController extends Controller
         $extravio->place = $request -> place;
         $extravio->escDesc = $request -> escDesc;
         $extravio->save();
+
+        $user = DB::table('extravios')
+                ->join("users","users.id","=","extravios.user_id")
+                ->where('user_id', $extravio->user_id)
+                ->value('name');
+
+        Mail::to(config('mail.from.address'))
+            ->send(new CorregirReporte('Se Modifico un reporte','emails.EXmod', $user. ' - '. $extravio->nameDoc));
         
         return redirect() -> route('extravio') -> with('correcto',  'Reporte actualizado');
     }

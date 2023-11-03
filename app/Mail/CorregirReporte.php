@@ -8,22 +8,22 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Override;
 
-class SenderMailable extends Mailable
+class CorregirReporte extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $subject;
     public $view;
-
+    public $report;
     /**
      * Create a new message instance.
      */
-    public function __construct($subject, $view)
+    public function __construct($subject, $view, $report)
     {
         $this->subject = $subject;
         $this->view = $view;
+        $this->report = $report;
     }
 
     /**
@@ -43,6 +43,7 @@ class SenderMailable extends Mailable
     {
         return new Content(
             view: $this->view,
+            with: ['report' => $this->report]
         );
     }
 

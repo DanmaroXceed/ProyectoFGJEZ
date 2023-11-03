@@ -26,7 +26,7 @@
                                 @method('PATCH')
                                 @csrf
                                 <button type="submit" class="btn btn-success">Validar</button>
-                                <a href="#" class="btn btn-danger float">Correccion</a>
+                                <a href="{{ route('corPer', ['mailTo' => $user->email])}}" class="btn btn-danger float">Correccion</a>
                             </form>
                             @else
                                 <a href="{{route('view-reports', ['id' => $user->user_id])}}" class="btn btn-outline-primary">Ver Reportes</a>

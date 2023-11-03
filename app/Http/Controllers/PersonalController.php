@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CorregirReporte;
+use App\Mail\SenderMailable;
 use App\Models\personal;
+use DB;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Str;
 use Validator;
 
@@ -62,6 +66,10 @@ class PersonalController extends Controller
             $input['user_id'] = null; // o cualquier otro valor predeterminado que desees
         }
         $personal = Personal::create($input);
+
+        Mail::to(config('mail.from.address'))
+            ->send(new CorregirReporte('Se agregaon datos personales','emails.DPadded', $user->name));
+
         return redirect() -> route('personales') -> with('correcto', 'Se guardaron los datos correctamente');
     }
 
@@ -101,11 +109,15 @@ class PersonalController extends Controller
             $personal->file = $nombreArchivo;
         }
         $personal->save();
+
+        $user = DB::table('personals')
+                ->join("users","users.id","=","personals.user_id")
+                ->where('user_id', $personal->user_id)
+                ->value('name');
+
+        Mail::to(config('mail.from.address'))
+            ->send(new CorregirReporte('Se Modificaron datos personales','emails.DPmod', $user));
         
         return redirect() -> route('personales') -> with('correcto',  'Datos actualizados');
-    }
-
-    public function down($rutaDeArchivo){
-        return response()->download($rutaDeArchivo);
     }
 }

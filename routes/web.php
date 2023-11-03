@@ -26,7 +26,6 @@ Route::get('/extravio/{id}', [ExtravioController::class,'show']) -> name('extrav
 Route::patch('/extravio/{id}', [ExtravioController::class,'update']) -> name('extravio-update')->middleware('auth');
 
 Route::get('/personales', [PersonalController::class, 'indexUser'])->name('personales')->middleware('auth');
-Route::get('/personales/{file}', [PersonalController::class, 'down'])->name('down')->middleware('auth');
 Route::post('/personales', [PersonalController::class, 'store'])->name('gen-personales')->middleware('auth');
 Route::get('/personales/{id}', [PersonalController::class,'show']) -> name('personales-edit')->middleware('auth');
 Route::patch('/personales/{id}', [PersonalController::class,'update']) -> name('personales-update')->middleware('auth');
@@ -37,8 +36,11 @@ Route::patch('/revision/{id}', [AdminController::class,'verifData']) -> name('ve
 Route::get('/view-reports/{id}', [AdminController::class, 'indexreports'])->name('view-reports')->middleware('auth');
 Route::patch('/view-reports/verif/{id}', [AdminController::class,'verifreport']) -> name('verif-report')->middleware('auth');
 
-Route::get('prueba-email', function () {
-    Mail::to('ejemplo@mail.com')
-        ->send(new SenderMailable);
-    return 'Enviado con exito';
-})->name('prueba-email');
+// Route::get('prueba-email', function () {
+//     Mail::to('ejemplo@mail.com')
+//         ->send(new SenderMailable);
+//     return 'Enviado con exito';
+// })->name('prueba-email');
+
+Route::get('mailCorreccionPersonal/{mailTo}', [AdminController::class,'mailCorreccionPersonal'])->name('corPer')->middleware('auth');
+Route::get('mailCorreccionExtravio/{mailTo}/{report}', [AdminController::class,'mailCorreccionExtravio'])->name('corEx')->middleware('auth');
