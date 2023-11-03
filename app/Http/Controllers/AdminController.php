@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Mail\CorregirReporte;
 use App\Mail\SenderMailable;
 use App\Models\extravio;
+use Barryvdh\DomPDF\Facade\Pdf;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -47,8 +49,8 @@ class AdminController extends Controller
         DB::table('extravios')
             ->where('id', $id)
             ->update(['verif' => 1]);
-        
-        //generar reporte
+
+        $this->generarConstancia($id);
 
         $user = DB::table('extravios')
             ->join("users","users.id","=","extravios.user_id")
@@ -84,5 +86,25 @@ class AdminController extends Controller
         Mail::to($user)
             ->send(new CorregirReporte('Correccion a Reporte','emails.CorregirReport', $report));
         return back()-> with(['correcto' => 'Se envio el correo correctamente']);
+    }
+
+    public function generarConstancia($id){
+        $data = DB::table('users')
+        ->join("personals","users.id","=","personals.user_id")
+        ->join("extravios","users.id","=","extravios.user_id")
+        ->where('extravios.id', $id)
+        ->get();
+
+        $pdf = Pdf::loadView('pdf.constancia', compact('data'));
+
+        $pdfContent = $pdf->output();
+
+        $pdfname = 'Const_' . uniqid() . '.pdf'; // Genera un nombre único
+        Storage::put("Constancias/$pdfname", $pdfContent);
+
+        DB::table('extravios')
+            ->where('id', $id)
+            ->update(['constancia' => $pdfname]);
+        // $pdf->stream();
     }
 }

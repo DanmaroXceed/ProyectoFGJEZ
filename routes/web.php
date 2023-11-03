@@ -36,11 +36,7 @@ Route::patch('/revision/{id}', [AdminController::class,'verifData']) -> name('ve
 Route::get('/view-reports/{id}', [AdminController::class, 'indexreports'])->name('view-reports')->middleware('auth');
 Route::patch('/view-reports/verif/{id}', [AdminController::class,'verifreport']) -> name('verif-report')->middleware('auth');
 
-// Route::get('prueba-email', function () {
-//     Mail::to('ejemplo@mail.com')
-//         ->send(new SenderMailable);
-//     return 'Enviado con exito';
-// })->name('prueba-email');
-
 Route::get('mailCorreccionPersonal/{mailTo}', [AdminController::class,'mailCorreccionPersonal'])->name('corPer')->middleware('auth');
 Route::get('mailCorreccionExtravio/{mailTo}/{report}', [AdminController::class,'mailCorreccionExtravio'])->name('corEx')->middleware('auth');
+
+Route::get('prueba/{id}', [AdminController::class,'generarConstancia']);

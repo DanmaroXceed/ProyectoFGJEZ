@@ -65,6 +65,11 @@
                             <h5>Fecha de extravio: {{ $extravio->date }}</h5>
                             <h5>Lugar de extravio: {{ $extravio->place }}</h5>
                             <h5>Descripcion del suceso: {{ $extravio->escDesc }}</h5>
+                            @if ($extravio->constancia != '')
+                                <h5>Constancia: <a class='btn btn-outline-success btn-sm' href="{{url('storage/' . $extravio->constancia)}}" target="_blank" enctype="multipart/form-data">Ver documento</a></h4>
+
+                            @endif
+
                             @if ($extravio->verif == 0)
                                 <a class="btn btn-outline-primary" href="{{  route('extravio-edit', ['id' => $extravio->id]) }}">Editar</a>
         

@@ -17,6 +17,7 @@ class extravio extends Model
         "escDesc",
         "user_id",
         "verif",
+        "constancia",
     ];
 
     public function usuario()

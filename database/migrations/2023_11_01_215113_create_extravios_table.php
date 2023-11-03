@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('place');
             $table->text('escDesc');
             $table->boolean('verif');
+            $table->string('constancia')->nullable();
         });
 
         Schema::table('extravios', function (Blueprint $table) {
