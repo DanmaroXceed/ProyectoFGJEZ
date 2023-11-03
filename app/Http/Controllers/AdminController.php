@@ -39,7 +39,12 @@ class AdminController extends Controller
         
         //generar reporte
 
-        return redirect() -> route('view-reports') -> with('correcto', 'Se genero el reporte correctamente correctamente');
+        $user = DB::table('extravios')
+                ->where('id', $id)
+                ->value('user_id');
+
+                return back()-> with(['correcto' => 'Se genero el reporte correctamente correctamente']);
+        // return view('view-reports', ['id' => $user]) -> with(['correcto' => 'Se genero el reporte correctamente correctamente']);
     }
 
     public function down($rutaDeArchivo){

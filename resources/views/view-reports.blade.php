@@ -22,7 +22,7 @@
                             <h5>Descripcion del suceso:{{ $report->escDesc}}</h5>
 
                             @if ($report->verif == 0)
-                            <form action="{{route('verifreport', ['id' => $report->id])}}" method="POST">
+                            <form action="{{route('verif-report', ['id' => $report->id])}}" method="POST">
                                 @method('PATCH')
                                 @csrf
                                 <button type="submit" class="btn btn-success">Validar</button>

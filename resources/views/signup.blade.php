@@ -17,8 +17,12 @@
         @error('confirm_password')
             <h6 class="alert alert-danger">{{ $message }}</h6>
         @enderror
+
+        @if(session('error'))
+            <h6 class="alert alert-danger">{{ session('error') }}</h6>
+        @endif
         <div class="mb-3">
-            <label for="name" class="form-label">Nombre</label>
+            <label for="name" class="form-label">Nombre Completo</label>
             <input value="{{ old('name') }}" type="text" class="form-control" name="name">
         </div>
         <div class="mb-3">

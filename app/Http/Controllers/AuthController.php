@@ -41,9 +41,13 @@ class AuthController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $input['type'] = 0;
-        $user = User::create($input);
-        $success['name'] =  $user->name;
-        return redirect() -> route('login') -> with('correcto', 'Usuario creado satisfactoriamente');
+        try {
+            $user = User::create($input);
+            // Otras operaciones aquí
+            return redirect()->route('login')->with('correcto', 'Usuario creado satisfactoriamente');
+        } catch (\Illuminate\Database\QueryException $ex) {
+                return back()->with('error', 'El correo electrónico ya está en uso. Por favor, elige otro correo electrónico.');
+        }
     }
 
     public function logout(Request $request){

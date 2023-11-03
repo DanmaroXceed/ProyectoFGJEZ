@@ -4,18 +4,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExtravioController;
 use App\Http\Controllers\PersonalController;
+use App\Mail\SenderMailable;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 Route::get("/", function () {return view('login');})->middleware('guest');
 
 Route::get('/login', function () {return view('login');})->name('login')->middleware('guest');
@@ -45,3 +37,8 @@ Route::patch('/revision/{id}', [AdminController::class,'verifData']) -> name('ve
 Route::get('/view-reports/{id}', [AdminController::class, 'indexreports'])->name('view-reports')->middleware('auth');
 Route::patch('/view-reports/verif/{id}', [AdminController::class,'verifreport']) -> name('verif-report')->middleware('auth');
 
+Route::get('prueba-email', function () {
+    Mail::to('ejemplo@mail.com')
+        ->send(new SenderMailable);
+    return 'Enviado con exito';
+})->name('prueba-email');

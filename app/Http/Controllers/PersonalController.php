@@ -49,7 +49,7 @@ class PersonalController extends Controller
             $archivo = $request->file('file');
             $nombreArchivo = uniqid() . '.pdf';
 
-            $archivo->storeAs('', $nombreArchivo . '.pdf','public');
+            $archivo->storeAs('', $nombreArchivo,'public');
             $input['file'] = $nombreArchivo;
         }
 

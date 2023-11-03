@@ -10,11 +10,13 @@
                 <h4 for="" class="form-label">Direccion: {{ $personal[0]->address}}</h4>
                 <h4 for="" class="form-label">Fecha de nacimiento: {{ $personal[0]->brtDay}}</h4>
                 <h4 for="" class="form-label">Genero: {{ $personal[0]->gen}}</h4>
-                <h4 for="" class="form-label">Archivo: <a href="{{url('storage/' . $personal[0]->file)}}" target="_blank" enctype="multipart/form-data">
-                    {{ $personal[0]->file}}</a></h4>
+                <h4 for="" class="form-label">Archivo: <a class='btn btn-outline-success btn-sm' href="{{url('storage/' . $personal[0]->file)}}" target="_blank" enctype="multipart/form-data">
+                    Ver documento</a></h4>
             </div>
             <div>
-                <a href="{{  route('personales-edit', ['id' => $personal[0]->id]) }}" class="btn btn-outline-primary">Editar</a>
+                @if ( $personal[0]->verif == 0)
+                    <a href="{{  route('personales-edit', ['id' => $personal[0]->id]) }}" class="btn btn-outline-primary">Editar</a>
+                @endif
             </div>
         </div>
 

@@ -19,17 +19,17 @@
                             <h5>Direccion: {{ $user->address}}</h5>
                             <h5>Fecha de nacimiento: {{ $user->brtDay}}</h5>
                             <h5>Genero: {{ $user->gen}}</h5>
-                            <h5>Comprobante:<a href="{{url('storage/' . $user->file)}}" target="_blank"> {{ $user->file}}</a></h5>
+                            <h5>Comprobante: <a class='btn btn-outline-success btn-sm' href="{{url('storage/' . $user->file)}}" target="_blank"> Ver Documento</a></h5>
 
                             @if ($user->verif == 0)
-                            <form action="{{route('verificar', ['id' => $user->id])}}" method="POST">
+                            <form action="{{route('verificar', ['id' => $user->user_id])}}" method="POST">
                                 @method('PATCH')
                                 @csrf
                                 <button type="submit" class="btn btn-success">Validar</button>
                                 <a href="#" class="btn btn-danger float">Correccion</a>
                             </form>
                             @else
-                                <a href="{{route('view-reports', ['id' => $user->id])}}" class="btn btn-outline-primary">Ver Reportes</a>
+                                <a href="{{route('view-reports', ['id' => $user->user_id])}}" class="btn btn-outline-primary">Ver Reportes</a>
                             @endif
                         </div>
                     </div>
